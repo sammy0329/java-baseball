@@ -27,14 +27,28 @@
 
 편의성을 위해 문자열로 숫자 생성 및 input 받기
 
-1. gameStart 함수 - 야구게임 시작 알림과 함께 while문으로 사용자에게 입력 받는 함수 호출 → 판단하는 함수가 3스트라이크를 반환할때까지
-2. 사용자에게 입력을 받는 함수
-    1. 입력한 숫자 반환
-    2. 단, 입력한 값이 잘못된 경우  `**IllegalArgumentException` 발생시키기 (예외처리)**
-        
-        ☞ `**throw new IllegalArgumentException("Invalid argument: " + arg);**`
-        
-3. 스트라이크, 볼, 낫싱 판단하는 함수
-    1. 반환 값으로 [스트라이크, 볼, 낫싱] 갯수를 배열로 return
-4. reGame 함수
-    1. 게임이 종료되면 다시 시작할지 1,2로 입력받아 return 하는 함수
+- GameManage
+    - 중재자 역할
+        - gameStart 함수 - 게임을 시작하는 함수
+            - 야구게임 시작 알림과 함께 사용자 인스턴스를 만들어 입력 받는 함수 호출 → 판단하는 함수가 3스트라이크를 반환할때까지
+            - 3스트라이크라면 Player의 reGame 함수를 호출하여 true면 재시작, false면 종료
+        - checkBall 함수 - 스트라이크, 볼, 낫싱 판단하는 함수
+            - 정답과 사용자가 입력한 값과 비교해서 [스트라이크, 볼, 낫싱] 갯수를 int 배열로 return
+- Computer
+    - 컴퓨터 객체는 하나만 불러서 써도 되기 때문에 싱글톤으로 제작
+    - generateNumberList 함수 - 컴퓨터가 숫자(정답) 제조 역할
+        - 세자리 숫자 랜덤으로 뽑는 함수
+- Player
+    - 사용자 역할
+        - userInput 함수 - 사용자에게 입력 받는 함수
+            - 알맞는 입력이 들어왔을 경우 해당 값을 char 배열로 반환
+        - isValid 함수 - 사용자가 입력한 값이 타당한지 판단하는 함수
+            - 1~9까지 각 자릿수가 다른 3자리수가 아닌 입력이 들어왔을 경우  `IllegalArgumentException` 발생시키기 (예외처리)
+                
+                ☞ `throw new IllegalArgumentException("잘못된 입력 형식입니다. 1~9까지 서로 다른 3자리 숫자를 입력해주세요.");`
+                
+        - reGame 함수 - 재시작할지 판단하는 함수
+            - 게임이 종료되면 다시 시작할지 1,2로 입력받아 1이면 true, 2면 false를 return 하는 함수
+            - 1,2 이외의 입력이 들어오면 `IllegalArgumentException` 발생시키기 (예외처리)
+                
+                ☞ `throw new IllegalArgumentException("잘못된 입력 형식입니다. 1,2 중 입력해주세요.");`
